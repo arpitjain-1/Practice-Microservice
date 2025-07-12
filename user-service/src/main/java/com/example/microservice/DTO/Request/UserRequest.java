@@ -1,6 +1,5 @@
 package com.example.microservice.DTO.Request;
 
-import java.util.List;
 
 public class UserRequest {
     private String Name;

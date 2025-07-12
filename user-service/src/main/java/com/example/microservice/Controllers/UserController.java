@@ -19,7 +19,7 @@ public class UserController {
         return ResponseEntity.ok(userService.greetUser(id));
     }
 
-    @PostMapping("/new/user")
+    @PostMapping("/new")
     public ResponseEntity<String> createUser(@RequestBody UserRequest userPayload){
         return ResponseEntity.ok(userService.createUser(userPayload));
     }

@@ -1,28 +1,35 @@
 package com.example.microservice.Entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "`user`")
 public class User {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private String email;
-    private Long password;
+    private String password;
 
     public User() {}
 
-    public User(String id, String name, Long Password) {
+    public User(int id, String name, String password, String email) {
         this.id = id;
+        this.password = password;
+        this.email = email;
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -34,11 +41,11 @@ public class User {
         this.name = name;
     }
 
-    public Long getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(Long password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

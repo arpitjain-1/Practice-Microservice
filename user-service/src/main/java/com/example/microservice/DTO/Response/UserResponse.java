@@ -3,7 +3,6 @@ package com.example.microservice.DTO.Response;
 public class UserResponse {
     private String Name;
     private String Email;
-    private String Password;
 
     public UserResponse() {}
 

@@ -3,7 +3,7 @@ spring:
         name: user-service
 
     datasource:
-        url: jdbc:h2:mem:user-service
+        url: jdbc:h2:file:user-service
         driver-class-name: org.h2.Driver
         username: sa
         password: 

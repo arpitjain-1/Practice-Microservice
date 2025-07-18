@@ -6,33 +6,36 @@ import com.example.microservice.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
 
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("user/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<String> helloUser(@PathVariable String id) {
         return ResponseEntity.ok(userService.greetUser(id));
     }
 
-    @PostMapping("new")
+    @PostMapping("/new")
     public ResponseEntity<String> createUser(@RequestBody UserRequest userPayload){
         return ResponseEntity.ok(userService.createUser(userPayload));
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody UserRequest userUpdatePayload) {
         return ResponseEntity.ok(userService.updateUser(id, userUpdatePayload));
-    }
+    } 
 }
-
-

@@ -15,7 +15,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("user/{id}")
-    public ResponseEntity<String> helloUser(@PathVariable int id) {
+    public ResponseEntity<String> helloUser(@PathVariable String id) {
         return ResponseEntity.ok(userService.greetUser(id));
     }
 
@@ -25,12 +25,12 @@ public class UserController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable int id){
+    public ResponseEntity<String> deleteUser(@PathVariable String id){
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable int id, @RequestBody UserRequest userUpdatePayload) {
+    public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @RequestBody UserRequest userUpdatePayload) {
         return ResponseEntity.ok(userService.updateUser(id, userUpdatePayload));
     }
 }

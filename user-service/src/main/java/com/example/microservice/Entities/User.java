@@ -11,26 +11,17 @@ import jakarta.persistence.Table;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
     private String name;
     private String email;
     private String password;
 
     public User() {}
 
-    public User(int id, String name, String password, String email) {
-        this.id = id;
+    public User(String name, String password, String email) {
         this.password = password;
         this.email = email;
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

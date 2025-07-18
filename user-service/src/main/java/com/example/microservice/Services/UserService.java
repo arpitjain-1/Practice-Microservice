@@ -25,20 +25,20 @@ public class UserService {
         return "User Created";
     }
 
-    public String greetUser(int id) {
+    public String greetUser(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
         return "Welcome " + user.getName();
     }
 
-    public String deleteUser(int id) {
+    public String deleteUser(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
         userRepository.deleteById(id);
         return user.getName()+" Deleted";
     }
 
-    public UserResponse updateUser(int id, UserRequest userUpdatePayload) {
+    public UserResponse updateUser(String id, UserRequest userUpdatePayload) {
         UserResponse userResponse = new UserResponse();
     
         Optional<User> exUser = userRepository.findById(id);

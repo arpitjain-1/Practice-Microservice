@@ -433,3 +433,6 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/USE
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:390)
 	... 37 more
+2025-07-24 13:36:32.437883+05:30 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SUSERS" not found; SQL statement:
+DROP TABLE SUSERS [42102-232]

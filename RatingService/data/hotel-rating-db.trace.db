@@ -1,0 +1,3 @@
+2025-07-24 13:29:49.121762+05:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RATINGS" not found (this database is empty); SQL statement:
+insert into ratings (feedback,hotel_id,rating,user_id,rating_id) values (?,?,?,?,?) [42104-232]

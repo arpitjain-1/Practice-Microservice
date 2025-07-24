@@ -77,7 +77,7 @@ public class UserService {
             
             try {
                 Rating[] ratingsArray = restTemplate.getForObject(
-                    "http://localhost:8083/ratings/user/" + id,
+                    "http://RATINGSERVICE/ratings/user/" + id,
                     Rating[].class
                 );
                 
@@ -87,7 +87,7 @@ public class UserService {
                     for (Rating rating : ratingsArray) {
                         try {
                             Hotel hotel = restTemplate.getForObject(
-                                "http://localhost:8082/hotel/" + rating.getHotelId(),
+                                "http://HOTELSERVICE/hotel/" + rating.getHotelId(),
                                 Hotel.class
                             );
                             rating.setHotel(hotel);

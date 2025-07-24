@@ -28,6 +28,9 @@ public class UserService {
     @Autowired
     private RestTemplate restTemplate;
     
+    @Autowired
+    private HotelService hotelService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public User createUser(UserRequest userPayload) {
@@ -85,10 +88,12 @@ public class UserService {
                     
                     for (Rating rating : ratingsArray) {
                         try {
-                            Hotel hotel = restTemplate.getForObject(
-                                "http://HOTELSERVICE/hotel/" + rating.getHotelId(),
-                                Hotel.class
-                            );
+                            // Hotel hotel = restTemplate.getForObject(
+                            //     "http://HOTELSERVICE/hotel/" + rating.getHotelId(),
+                            //     Hotel.class
+                            // );
+                            
+                            Hotel hotel = hotelService.getHotel(rating.getHotelId());
                             rating.setHotel(hotel);
                         } catch (Exception e) {
                             logger.error("Error fetching hotel for hotelId: {}", rating.getHotelId(), e);

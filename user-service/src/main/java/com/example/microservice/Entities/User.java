@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.example.microservice.DTO.Response.Hotel;
 import com.example.microservice.DTO.Response.Rating;
 
 import jakarta.persistence.Entity;
@@ -65,22 +66,11 @@ public class User {
     @Transient
     private List<Rating> ratings = new ArrayList<>();
     
-    @Transient
-    private List<Hotel> hotels = new ArrayList<>();
-
     public List<Rating> getRatings() {
         return ratings;
     }
 
     public void setRatings(List<Rating> ratings) {
         this.ratings = ratings;
-    }
-
-    public List<Hotel> getHotels() {
-        return hotels;
-    }
-
-    public void setHotels(List<Hotel> hotels) {
-        this.hotels = hotels;
     }
 }

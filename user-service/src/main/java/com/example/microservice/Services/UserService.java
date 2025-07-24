@@ -2,6 +2,7 @@ package com.example.microservice.Services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.HttpClientErrorException;
 
 import com.example.microservice.DTO.Request.UserRequest;
+import com.example.microservice.DTO.Response.Hotel;
 import com.example.microservice.DTO.Response.Rating;
 import com.example.microservice.DTO.Response.UserResponse;
 import com.example.microservice.Entities.User;
@@ -75,18 +77,33 @@ public class UserService {
             
             try {
                 Rating[] ratingsArray = restTemplate.getForObject(
-                    "http://localhost:8083/ratings/user/" + id, 
+                    "http://localhost:8083/ratings/user/" + id,
                     Rating[].class
                 );
                 
                 if (ratingsArray != null) {
-                    user.setRatings(Arrays.asList(ratingsArray));
-                    logger.info("Successfully fetched {} ratings for user: {}", ratingsArray.length, id);
+                    List<Rating> enrichedRatings = new ArrayList<>();
+                    
+                    for (Rating rating : ratingsArray) {
+                        try {
+                            Hotel hotel = restTemplate.getForObject(
+                                "http://localhost:8082/hotel/" + rating.getHotelId(),
+                                Hotel.class
+                            );
+                            rating.setHotel(hotel);
+                        } catch (Exception e) {
+                            logger.error("Error fetching hotel for hotelId: {}", rating.getHotelId(), e);
+                            rating.setHotel(null);
+                        }
+                        enrichedRatings.add(rating);
+                    }
+                    
+                    user.setRatings(enrichedRatings);
+                    logger.info("Successfully enriched ratings for user: {}", id);
                 } else {
                     user.setRatings(new ArrayList<>());
                     logger.warn("No ratings found for user: {}", id);
                 }
-                
             } catch (ResourceAccessException e) {
                 logger.error("Rating service is not accessible for user: {}", id, e);
                 user.setRatings(new ArrayList<>());
@@ -97,11 +114,12 @@ public class UserService {
                 logger.error("Unexpected error fetching ratings for user: {}", id, e);
                 user.setRatings(new ArrayList<>());
             }
-            
+
         } else {
             logger.warn("User not found with ID: {}", id);
         }
-        
+
         return userOpt;
     }
+
 }

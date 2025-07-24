@@ -1,11 +1,16 @@
 package com.example.microservice.Entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import com.example.microservice.DTO.Response.Rating;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +34,9 @@ public class User {
         this.id = UUID.randomUUID().toString();
     }
 
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -52,5 +60,27 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Transient
+    private List<Rating> ratings = new ArrayList<>();
+    
+    @Transient
+    private List<Hotel> hotels = new ArrayList<>();
+
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public List<Hotel> getHotels() {
+        return hotels;
+    }
+
+    public void setHotels(List<Hotel> hotels) {
+        this.hotels = hotels;
     }
 }

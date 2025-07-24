@@ -1,6 +1,9 @@
 package com.example.microservice.DTO.Response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Hotel {
+    @JsonProperty("id")
     private String hotelId;
     private String name;
     private String location;

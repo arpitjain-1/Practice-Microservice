@@ -8,6 +8,8 @@ public class Rating {
     private int rating;
     private String feedback;
 
+    private Hotel hotel;
+
     public Rating() {
     }
 
@@ -58,5 +60,13 @@ public class Rating {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 }

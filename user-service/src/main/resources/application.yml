@@ -25,6 +25,16 @@ management:
       enabled: true
 
 resilience4j:
+  retry:
+    instances:
+      userServiceRetry:
+        max-attempts: 3
+        wait-duration: 2s
+        retry-exceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.client.RestClientException
+
   circuitbreaker:
     instances:
       getUserEntity:

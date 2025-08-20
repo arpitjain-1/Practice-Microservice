@@ -19,8 +19,6 @@ import com.example.microservice.DTO.Response.UserResponse;
 import com.example.microservice.Entities.User;
 import com.example.microservice.Repositories.UserRepository;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-
 @Service
 public class UserService {
 
@@ -35,7 +33,6 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    // Create a new user
     public User createUser(UserRequest userPayload) {
         User user = new User();
         user.setEmail(userPayload.getEmail());
@@ -45,14 +42,12 @@ public class UserService {
         return user;
     }
 
-    // Greet user by ID
     public String greetUser(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
         return "Welcome " + user.getName();
     }
 
-    // Delete user by ID
     public String deleteUser(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
@@ -60,7 +55,6 @@ public class UserService {
         return user.getName() + " Deleted";
     }
 
-    // Update user details
     public UserResponse updateUser(String id, UserRequest userUpdatePayload) {
         UserResponse userResponse = new UserResponse();
 
@@ -81,13 +75,10 @@ public class UserService {
         return userResponse;
     }
 
-    // Fetch user with ratings and hotel details
-    @CircuitBreaker(name = "getUserEntity", fallbackMethod = "userEntityFallback")
     public Optional<User> getUserEntity(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with ID: " + id));
 
-        // Fetch ratings for user
         Rating[] ratingsArray = restTemplate.getForObject(
                 "http://RATINGSERVICE/ratings/user/" + id,
                 Rating[].class);
@@ -112,17 +103,5 @@ public class UserService {
         }
 
         return Optional.of(user);
-    }
-
-    // Fallback method for circuit breaker
-    public Optional<User> userEntityFallback(String id, Exception ex) {
-        logger.warn("Fallback triggered for getUserEntity(), userId: {}. Reason: {}", id, ex.toString());
-
-        User fallbackUser = new User();
-        fallbackUser.setName("Unknown");
-        fallbackUser.setEmail("unknown@email.com");
-        fallbackUser.setRatings(List.of());
-
-        return Optional.of(fallbackUser);
     }
 }

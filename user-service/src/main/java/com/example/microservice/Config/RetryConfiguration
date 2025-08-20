@@ -1,0 +1,36 @@
+package com.example.microservice.Config;
+
+import io.github.resilience4j.retry.RetryConfig;
+import io.github.resilience4j.retry.RetryRegistry;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.time.Duration;
+
+@Configuration
+public class RetryConfiguration {
+
+    @Bean
+    public RetryRegistry retryRegistry() {
+        RetryConfig config = RetryConfig.custom()
+                .maxAttempts(3)
+                .waitDuration(Duration.ofSeconds(2))
+                .retryExceptions(RuntimeException.class)
+                .build();
+
+        RetryRegistry registry = RetryRegistry.of(config);
+
+        Retry retry = registry.retry("userServiceRetry");
+
+        retry.getEventPublisher()
+                .onRetry(event -> System.out.println("Retry attempt: " + event.getNumberOfRetryAttempts()))
+                .onError(event -> System.out.println("Final failure: " + event.getLastThrowable()));
+
+        return registry;
+    }
+
+    @Bean
+    public Retry userServiceRetry(RetryRegistry registry) {
+        return registry.retry("userServiceRetry");
+    }
+}
